@@ -36,10 +36,11 @@ func main() {
 	}
 }
 
-func (g *Game) Update() error {
-	g.updateHero()
-
-	return nil
+func (g *Game) processInput() {
+	stickState := GetStickState()
+	h := g.hero
+	h.Movement.Velocity.X = stickState.X * h.Movement.Speed.X
+	h.Movement.Velocity.Y = stickState.Y * h.Movement.Speed.Y
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -72,12 +73,17 @@ func (g *Game) updateHero() {
 	m := g.hero.Movement
 
 	t.Position.X += m.Velocity.X * dt
-
-	newPos := Vec2f{50, 50}
-	t.Position = newPos
+	t.Position.Y += m.Velocity.Y * dt
 }
 
 // Called every frame by the game loop
+func (g *Game) Update() error {
+	g.processInput()
+	g.updateHero()
+
+	return nil
+}
+
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.Black)
 

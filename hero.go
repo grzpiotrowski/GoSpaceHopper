@@ -15,7 +15,7 @@ func makeHero() (*Hero, error) {
 		Entity: NewEntity(),
 	}
 
-	e.Movement.Speed = Vec2f{120, 0}
+	e.Movement.Speed = Vec2f{120, 120}
 
 	heroWidth, heroHeight := 50, 50
 	img := ebiten.NewImage(heroWidth, heroHeight)
