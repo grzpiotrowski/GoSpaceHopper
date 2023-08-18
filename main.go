@@ -1,11 +1,15 @@
 package main
 
 import (
+	"embed"
 	"image/color"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
+
+//go:embed data
+var data embed.FS
 
 const (
 	gameScreenWidth  = 640

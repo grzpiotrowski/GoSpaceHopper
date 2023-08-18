@@ -1,8 +1,6 @@
 package main
 
 import (
-	"image/color"
-
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -10,10 +8,6 @@ type Entity struct {
 	Transform *TransformComponent
 	Movement  *MovementComponent
 	Graphics  *GraphicsComponent
-}
-
-type Vec2f struct {
-	X, Y float64
 }
 
 type TransformComponent struct {
@@ -27,28 +21,20 @@ type MovementComponent struct {
 }
 
 type GraphicsComponent struct {
-	Rect *ebiten.Image
-}
-
-type FloatRect struct {
-	X, Y, W, H float64
+	Sprite *Sprite
 }
 
 func NewEntity() Entity {
-	rect := ebiten.NewImage(50, 50)
-	rect.Fill(color.White)
-
 	return Entity{
 		Transform: &TransformComponent{},
 		Movement:  &MovementComponent{},
-		Graphics: &GraphicsComponent{
-			Rect: rect,
-		},
+		Graphics:  &GraphicsComponent{},
 	}
 }
 
 func (e *Entity) getAABB() FloatRect {
-	w, h := float64(e.Graphics.Rect.Bounds().Dx()), float64(e.Graphics.Rect.Bounds().Dy())
+	w := e.Graphics.Sprite.GetSize().X
+	h := e.Graphics.Sprite.GetSize().Y
 	return FloatRect{e.Transform.Position.X, e.Transform.Position.Y, w, h}
 }
 
@@ -58,7 +44,5 @@ func (e *Entity) Draw(screen *ebiten.Image) {
 		e.Transform.Position.X,
 		e.Transform.Position.Y,
 	)
-	screen.DrawImage(e.Graphics.Rect, &ebiten.DrawImageOptions{
-		GeoM: m,
-	})
+	e.Graphics.Sprite.Draw(screen, m)
 }

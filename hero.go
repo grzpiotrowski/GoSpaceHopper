@@ -1,11 +1,5 @@
 package main
 
-import (
-	"image/color"
-
-	"github.com/hajimehoshi/ebiten/v2"
-)
-
 type Hero struct {
 	Entity
 }
@@ -17,11 +11,12 @@ func makeHero() (*Hero, error) {
 
 	e.Movement.Speed = Vec2f{120, 120}
 
-	heroWidth, heroHeight := 50, 50
-	img := ebiten.NewImage(heroWidth, heroHeight)
-	img.Fill(color.RGBA{R: 0, G: 0, B: 255, A: 255})
+	img, _, err := NewImageFromFile("data/images/hero_stand.png")
+	if err != nil {
+		return nil, err
+	}
 
-	e.Graphics.Rect = img
+	e.Graphics.Sprite = NewSprite(img)
 
 	return e, nil
 }
