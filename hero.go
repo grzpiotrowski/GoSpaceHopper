@@ -25,3 +25,11 @@ func makeHero() (*Hero, error) {
 
 	return e, nil
 }
+
+func (g *Game) updateHero() {
+	t := g.hero.Transform
+	m := g.hero.Movement
+
+	t.Position.X += m.Velocity.X * dt
+	t.Position.Y += m.Velocity.Y * dt
+}

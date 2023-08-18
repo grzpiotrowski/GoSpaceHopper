@@ -68,14 +68,6 @@ func (g *Game) loadObjects() error {
 	return nil
 }
 
-func (g *Game) updateHero() {
-	t := g.hero.Transform
-	m := g.hero.Movement
-
-	t.Position.X += m.Velocity.X * dt
-	t.Position.Y += m.Velocity.Y * dt
-}
-
 // Called every frame by the game loop
 func (g *Game) Update() error {
 	g.processInput()
