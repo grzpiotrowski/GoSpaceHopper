@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"image/color"
 	"log"
 
@@ -85,6 +86,9 @@ func (g *Game) Update() error {
 	g.processInput()
 	g.updateMonster()
 	g.updateHero()
+	var hit bool = getRectRectCollision(g.hero.getAABB(), g.monster.getAABB())
+
+	fmt.Println(fmt.Sprint(hit))
 
 	return nil
 }
@@ -94,5 +98,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	g.monster.Draw(screen)
 	g.hero.Draw(screen)
+	// Debug text
+	//fmt.Println(g.hero.getAABB().String())
 
 }

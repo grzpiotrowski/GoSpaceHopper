@@ -26,7 +26,7 @@ type FloatRect struct {
 }
 
 func (r FloatRect) String() string {
-	return fmt.Sprintf("(%.2f, %.2f, %.2f)", r.X, r.Y, r.W, r.H)
+	return fmt.Sprintf("(%.2f, %.2f, %.2f, %.2f)", r.X, r.Y, r.W, r.H)
 }
 
 func (r FloatRect) ToImageRect() image.Rectangle {
