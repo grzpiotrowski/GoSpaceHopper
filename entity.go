@@ -41,6 +41,10 @@ func (e *Entity) getAABB() FloatRect {
 	return FloatRect{e.Transform.Position.X, e.Transform.Position.Y, w, h}
 }
 
+func (e *Entity) collidesWith(other *Entity) bool {
+	return e.getAABB().overlaps(other.getAABB())
+}
+
 func (e *Entity) Draw(screen *ebiten.Image) {
 	var m ebiten.GeoM
 	m.Scale(e.Transform.Scale.X, e.Transform.Scale.Y)

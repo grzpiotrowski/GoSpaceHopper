@@ -1,6 +1,6 @@
 package main
 
-func getRectRectCollision(rectA, rectB FloatRect) bool {
+func (rectA FloatRect) overlaps(rectB FloatRect) bool {
 
 	if rectA.X+rectA.W >= rectB.X &&
 		rectA.X <= rectB.X+rectB.W &&

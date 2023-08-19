@@ -86,7 +86,8 @@ func (g *Game) Update() error {
 	g.processInput()
 	g.updateMonster()
 	g.updateHero()
-	var hit bool = getRectRectCollision(g.hero.getAABB(), g.monster.getAABB())
+
+	var hit bool = g.hero.collidesWith(&g.monster.Entity)
 
 	fmt.Println(fmt.Sprint(hit))
 
