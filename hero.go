@@ -6,7 +6,7 @@ type Hero struct {
 
 func makeHero() (*Hero, error) {
 	e := &Hero{
-		Entity: NewEntity(),
+		Entity: NewEntity(Vec2f{0.5, 0.5}),
 	}
 
 	e.Movement.Speed = Vec2f{120, 120}
