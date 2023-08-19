@@ -23,7 +23,8 @@ const (
 )
 
 type Game struct {
-	hero *Hero
+	hero    *Hero
+	monster *Monster
 }
 
 func main() {
@@ -69,12 +70,20 @@ func (g *Game) loadObjects() error {
 	}
 	g.hero = hero
 
+	// monster
+	monster, err := makeMonster()
+	if err != nil {
+		return err
+	}
+	g.monster = monster
+
 	return nil
 }
 
 // Called every frame by the game loop
 func (g *Game) Update() error {
 	g.processInput()
+	g.updateMonster()
 	g.updateHero()
 
 	return nil
@@ -83,5 +92,7 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.Black)
 
+	g.monster.Draw(screen)
 	g.hero.Draw(screen)
+
 }
