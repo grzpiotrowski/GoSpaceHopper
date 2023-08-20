@@ -7,13 +7,13 @@ import (
 )
 
 type TerrainBlock struct {
-	xBegin                       float32
-	width                        float32
-	elevationBegin, elevationEnd float32
+	xBegin                       float64
+	width                        float64
+	elevationBegin, elevationEnd float64
 	colour                       color.Color
 }
 
-func makeTerrainBlock(xBegin, width, elevationBegin, elevationEnd float32, colour color.Color) *TerrainBlock {
+func makeTerrainBlock(xBegin, width, elevationBegin, elevationEnd float64, colour color.Color) *TerrainBlock {
 	return &TerrainBlock{
 		xBegin:         xBegin,
 		width:          width,
@@ -23,16 +23,23 @@ func makeTerrainBlock(xBegin, width, elevationBegin, elevationEnd float32, colou
 	}
 }
 
-func (tb *TerrainBlock) xEnd() float32 {
+func (tb *TerrainBlock) xEnd() float64 {
 	return tb.xBegin + tb.width
 }
 
-func (tb *TerrainBlock) yBegin(screenHeight float32) float32 {
+func (tb *TerrainBlock) yBegin(screenHeight float64) float64 {
 	return screenHeight - tb.elevationBegin
 }
 
-func (tb *TerrainBlock) yEnd(screenHeight float32) float32 {
+func (tb *TerrainBlock) yEnd(screenHeight float64) float64 {
 	return screenHeight - tb.elevationEnd
+}
+
+func (tb *TerrainBlock) collisionLine() Line {
+	return Line{
+		Begin: Vec2f{X: tb.xBegin, Y: tb.yBegin(gameScreenHeight)},
+		End:   Vec2f{X: tb.xEnd(), Y: tb.yEnd(gameScreenHeight)},
+	}
 }
 
 func createSolidImage(colour color.Color) *ebiten.Image {
@@ -49,7 +56,7 @@ func (tb *TerrainBlock) Draw(screen *ebiten.Image) {
 
 	v := []ebiten.Vertex{
 		{
-			DstX:   tb.xBegin,
+			DstX:   float32(tb.xBegin),
 			DstY:   float32(screen.Bounds().Dy()),
 			SrcX:   0,
 			SrcY:   0,
@@ -59,8 +66,8 @@ func (tb *TerrainBlock) Draw(screen *ebiten.Image) {
 			ColorA: 1,
 		},
 		{
-			DstX:   tb.xBegin,
-			DstY:   tb.yBegin(float32(screen.Bounds().Dy())),
+			DstX:   float32(tb.xBegin),
+			DstY:   float32(tb.yBegin(float64(screen.Bounds().Dy()))),
 			SrcX:   0,
 			SrcY:   0,
 			ColorR: 1,
@@ -69,8 +76,8 @@ func (tb *TerrainBlock) Draw(screen *ebiten.Image) {
 			ColorA: 1,
 		},
 		{
-			DstX:   tb.xEnd(),
-			DstY:   tb.yEnd(float32(screen.Bounds().Dy())),
+			DstX:   float32(tb.xEnd()),
+			DstY:   float32(tb.yEnd(float64(screen.Bounds().Dy()))),
 			SrcX:   0,
 			SrcY:   0,
 			ColorR: 1,
@@ -79,7 +86,7 @@ func (tb *TerrainBlock) Draw(screen *ebiten.Image) {
 			ColorA: 1,
 		},
 		{
-			DstX:   tb.xEnd(),
+			DstX:   float32(tb.xEnd()),
 			DstY:   float32(screen.Bounds().Dy()),
 			SrcX:   0,
 			SrcY:   0,

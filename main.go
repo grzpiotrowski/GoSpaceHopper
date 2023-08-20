@@ -21,6 +21,8 @@ const (
 	windowHeight = gameScreenHeight * scale
 
 	dt = 1 / 60.0
+
+	gravity = 100
 )
 
 type Game struct {
@@ -91,9 +93,11 @@ func (g *Game) Update() error {
 	g.updateMonster()
 	g.updateHero()
 
-	var hit bool = g.hero.collidesWith(&g.monster.Entity)
+	//var hit bool = g.hero.collidesWith(&g.monster.Entity)
 
-	fmt.Println(fmt.Sprint(hit))
+	//fmt.Println(fmt.Sprint(hit))
+
+	fmt.Println(g.hero.onGround(*g.tb))
 
 	return nil
 }

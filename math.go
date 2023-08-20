@@ -21,6 +21,10 @@ func (v Vec2f) String() string {
 	return fmt.Sprintf("(%.2f, %.2f)", v.X, v.Y)
 }
 
+type Line struct {
+	Begin, End Vec2f
+}
+
 type FloatRect struct {
 	X, Y, W, H float64
 }

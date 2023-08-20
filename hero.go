@@ -27,4 +27,9 @@ func (g *Game) updateHero() {
 
 	t.Position.X += m.Velocity.X * dt
 	t.Position.Y += m.Velocity.Y * dt
+
+	t.Position.Y += gravity * dt
+
+	g.hero.Entity.update(*g.tb)
+
 }

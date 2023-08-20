@@ -22,9 +22,14 @@ func makeMonster() (*Monster, error) {
 }
 
 func (g *Game) updateMonster() {
+
 	t := g.monster.Transform
 	m := g.monster.Movement
 
 	t.Position.X += m.Velocity.X * dt
 	t.Position.Y += m.Velocity.Y * dt
+
+	t.Position.Y += gravity * dt
+
+	g.monster.Entity.update(*g.tb)
 }
