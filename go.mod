@@ -2,10 +2,7 @@ module github.com/grzpiotrowski/GoSpaceHopper
 
 go 1.21.0
 
-require (
-	github.com/hajimehoshi/ebiten v1.12.12
-	github.com/hajimehoshi/ebiten/v2 v2.5.6
-)
+require github.com/hajimehoshi/ebiten/v2 v2.5.6
 
 require (
 	github.com/ebitengine/purego v0.4.0 // indirect

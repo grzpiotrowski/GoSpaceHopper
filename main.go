@@ -26,6 +26,7 @@ const (
 type Game struct {
 	hero    *Hero
 	monster *Monster
+	tb      *TerrainBlock
 }
 
 func main() {
@@ -78,6 +79,9 @@ func (g *Game) loadObjects() error {
 	}
 	g.monster = monster
 
+	// test TerrainBlock
+	tb := makeTerrainBlock(0, 300, 50, 60, color.RGBA{50, 30, 60, 100})
+	g.tb = tb
 	return nil
 }
 
@@ -99,6 +103,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	g.monster.Draw(screen)
 	g.hero.Draw(screen)
+	g.tb.Draw(screen)
 	// Debug text
 	//fmt.Println(g.hero.getAABB().String())
 
