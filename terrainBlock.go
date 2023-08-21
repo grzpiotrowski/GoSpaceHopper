@@ -48,6 +48,10 @@ func createSolidImage(colour color.Color) *ebiten.Image {
 	return img
 }
 
+func (tb *TerrainBlock) Scroll(m MovementComponent) {
+	tb.xBegin -= m.Velocity.X * dt
+}
+
 func (tb *TerrainBlock) Draw(screen *ebiten.Image) {
 
 	options := &ebiten.DrawTrianglesOptions{}

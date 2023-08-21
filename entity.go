@@ -80,6 +80,19 @@ func (e *Entity) verticalCollisionLine() Line {
 	return l
 }
 
+func (e *Entity) getBlockUnder(t *Terrain) *TerrainBlock {
+	xEntity := e.getAABB().X + e.getAABB().W/2
+
+	for _, block := range t.Blocks {
+		if xEntity >= block.xBegin && xEntity < block.xEnd() {
+			return block
+		}
+	}
+
+	return nil
+
+}
+
 func (e *Entity) drawDebugLines(screen *ebiten.Image) {
 	var rect FloatRect = e.getAABB()
 	var clr color.Color = color.RGBA{255, 0, 0, 100}

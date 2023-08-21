@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	"fmt"
 	"image/color"
 	"log"
 
@@ -86,7 +85,7 @@ func (g *Game) loadObjects() error {
 	t := makeTerrain()
 	t.generateTerrain(7)
 	g.t = t
-	g.tb = &t.Blocks[0]
+	g.tb = t.Blocks[0]
 	return nil
 }
 
@@ -95,12 +94,14 @@ func (g *Game) Update() error {
 	g.processInput()
 	g.updateMonster()
 	g.updateHero()
+	g.updateTerrain()
 
 	//var hit bool = g.hero.collidesWith(&g.monster.Entity)
 
 	//fmt.Println(fmt.Sprint(hit))
 
-	fmt.Println(g.hero.onGround(*g.tb))
+	//fmt.Println(g.hero.onGround(*g.tb))
+	//fmt.Println(g.tb.xBegin)
 
 	return nil
 }

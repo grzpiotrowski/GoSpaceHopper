@@ -9,7 +9,7 @@ import (
 )
 
 type Terrain struct {
-	Blocks []TerrainBlock
+	Blocks []*TerrainBlock
 }
 
 func makeTerrain() *Terrain {
@@ -28,10 +28,17 @@ func (t *Terrain) generateTerrain(numBlocks int) {
 		colour := color.RGBA{50, 30, 60, 100}
 
 		tb := makeTerrainBlock(lastXEnd, width, lastElevation, elevationEnd, colour)
-		t.Blocks = append(t.Blocks, *tb)
+		t.Blocks = append(t.Blocks, tb)
 
 		lastXEnd += width
 		lastElevation = elevationEnd
+	}
+}
+
+func (g *Game) updateTerrain() {
+	t := g.t
+	for _, block := range t.Blocks {
+		block.Scroll(*g.hero.Movement)
 	}
 }
 
