@@ -27,18 +27,18 @@ func (tb *TerrainBlock) xEnd() float64 {
 	return tb.xBegin + tb.width
 }
 
-func (tb *TerrainBlock) yBegin(screenHeight float64) float64 {
-	return screenHeight - tb.elevationBegin
+func (tb *TerrainBlock) yBegin() float64 {
+	return gameScreenHeight - tb.elevationBegin
 }
 
-func (tb *TerrainBlock) yEnd(screenHeight float64) float64 {
-	return screenHeight - tb.elevationEnd
+func (tb *TerrainBlock) yEnd() float64 {
+	return gameScreenHeight - tb.elevationEnd
 }
 
 func (tb *TerrainBlock) collisionLine() Line {
 	return Line{
-		Begin: Vec2f{X: tb.xBegin, Y: tb.yBegin(gameScreenHeight)},
-		End:   Vec2f{X: tb.xEnd(), Y: tb.yEnd(gameScreenHeight)},
+		Begin: Vec2f{X: tb.xBegin, Y: tb.yBegin()},
+		End:   Vec2f{X: tb.xEnd(), Y: tb.yEnd()},
 	}
 }
 
@@ -67,7 +67,7 @@ func (tb *TerrainBlock) Draw(screen *ebiten.Image) {
 		},
 		{
 			DstX:   float32(tb.xBegin),
-			DstY:   float32(tb.yBegin(float64(screen.Bounds().Dy()))),
+			DstY:   float32(tb.yBegin()),
 			SrcX:   0,
 			SrcY:   0,
 			ColorR: 1,
@@ -77,7 +77,7 @@ func (tb *TerrainBlock) Draw(screen *ebiten.Image) {
 		},
 		{
 			DstX:   float32(tb.xEnd()),
-			DstY:   float32(tb.yEnd(float64(screen.Bounds().Dy()))),
+			DstY:   float32(tb.yEnd()),
 			SrcX:   0,
 			SrcY:   0,
 			ColorR: 1,

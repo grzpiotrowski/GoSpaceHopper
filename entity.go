@@ -53,7 +53,7 @@ func (e *Entity) onGround(tb TerrainBlock) bool {
 	var rect FloatRect = e.getAABB()
 
 	return checkLineSegmentsIntersection(rect.X+rect.W/2, rect.Y+rect.H/2, rect.X+rect.W/2, rect.Y+rect.H,
-		float64(tb.xBegin), float64(tb.yBegin(gameScreenHeight)), float64(tb.xEnd()), float64(tb.yEnd(gameScreenHeight)),
+		float64(tb.xBegin), float64(tb.yBegin()), float64(tb.xEnd()), float64(tb.yEnd()),
 	)
 }
 
