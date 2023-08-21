@@ -99,5 +99,5 @@ func (e *Entity) Draw(screen *ebiten.Image) {
 		e.Transform.Position.Y,
 	)
 	e.Graphics.Sprite.Draw(screen, m)
-	e.drawDebugLines(screen)
+	//e.drawDebugLines(screen)
 }

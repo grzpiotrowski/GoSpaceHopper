@@ -21,6 +21,19 @@ func makeHero() (*Hero, error) {
 	return e, nil
 }
 
+func (h *Hero) getBlockUnder(t *Terrain) *TerrainBlock {
+	xHero := h.getAABB().X + h.getAABB().W/2
+
+	for _, block := range t.Blocks {
+		if xHero >= block.xBegin && xHero < block.xEnd() {
+			return &block
+		}
+	}
+
+	return nil
+
+}
+
 func (g *Game) updateHero() {
 	t := g.hero.Transform
 	m := g.hero.Movement
@@ -29,7 +42,7 @@ func (g *Game) updateHero() {
 	t.Position.Y += m.Velocity.Y * dt
 
 	t.Position.Y += gravity * dt
-
-	g.hero.Entity.update(*g.tb)
+	tbUnder := g.hero.getBlockUnder(g.t)
+	g.hero.Entity.update(*tbUnder)
 
 }
