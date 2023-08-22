@@ -29,7 +29,7 @@ func (g *Game) updateHero() {
 	t.Position.Y += m.Velocity.Y * dt
 
 	t.Position.Y += gravity * dt
-	tbUnder := g.hero.Entity.getBlockUnder(g.t)
-	g.hero.Entity.update(*tbUnder)
+	g.hero.TerrainBlock = g.hero.Entity.getBlockUnder(g.t)
+	g.hero.Entity.update()
 
 }

@@ -8,9 +8,10 @@ import (
 )
 
 type Entity struct {
-	Transform *TransformComponent
-	Movement  *MovementComponent
-	Graphics  *GraphicsComponent
+	Transform    *TransformComponent
+	Movement     *MovementComponent
+	Graphics     *GraphicsComponent
+	TerrainBlock *TerrainBlock
 }
 
 type TransformComponent struct {
@@ -100,8 +101,8 @@ func (e *Entity) drawDebugLines(screen *ebiten.Image) {
 	vector.StrokeLine(screen, float32(rect.X)+float32(rect.W)/2, float32(rect.Y)+float32(rect.H/2), float32(rect.X)+float32(rect.W)/2, float32(rect.Y)+float32(rect.H), 2, clr, false)
 }
 
-func (e *Entity) update(tb TerrainBlock) {
-	e.groundCollision(tb)
+func (e *Entity) update() {
+	e.groundCollision(*e.TerrainBlock)
 }
 
 func (e *Entity) Draw(screen *ebiten.Image) {

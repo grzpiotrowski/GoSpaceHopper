@@ -35,6 +35,6 @@ func (g *Game) updateMonster() {
 
 	t.Position.Y += gravity * dt
 	g.monster.Scroll(*g.hero.Movement)
-	tbUnder := g.monster.Entity.getBlockUnder(g.t)
-	g.monster.Entity.update(*tbUnder)
+	g.monster.TerrainBlock = g.monster.Entity.getBlockUnder(g.t)
+	g.monster.Entity.update()
 }

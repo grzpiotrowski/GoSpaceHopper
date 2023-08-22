@@ -83,7 +83,7 @@ func (g *Game) loadObjects() error {
 
 	// test TerrainBlock
 	t := makeTerrain()
-	t.generateTerrain(7)
+	t.generateTerrain(200)
 	g.t = t
 	g.tb = t.Blocks[0]
 	return nil
@@ -111,7 +111,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	g.monster.Draw(screen)
 	g.hero.Draw(screen)
-	g.t.Draw(screen)
+
+	g.t.Draw(screen, g.hero.TerrainBlock.index)
 	// Debug text
 	//fmt.Println(g.hero.getAABB().String())
 

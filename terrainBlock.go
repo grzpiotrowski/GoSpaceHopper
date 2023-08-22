@@ -11,15 +11,17 @@ type TerrainBlock struct {
 	width                        float64
 	elevationBegin, elevationEnd float64
 	colour                       color.Color
+	index                        int
 }
 
-func makeTerrainBlock(xBegin, width, elevationBegin, elevationEnd float64, colour color.Color) *TerrainBlock {
+func makeTerrainBlock(xBegin, width, elevationBegin, elevationEnd float64, colour color.Color, index int) *TerrainBlock {
 	return &TerrainBlock{
 		xBegin:         xBegin,
 		width:          width,
 		elevationBegin: elevationBegin,
 		elevationEnd:   elevationEnd,
 		colour:         colour,
+		index:          index,
 	}
 }
 
