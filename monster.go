@@ -10,6 +10,7 @@ func makeMonster() (*Monster, error) {
 	}
 
 	e.Movement.Speed = Vec2f{40, 40}
+	e.Movement.JumpForce = 50
 	e.Transform.Position.X = 350
 
 	img, _, err := NewImageFromFile("data/images/monster_stand.png")
@@ -33,8 +34,9 @@ func (g *Game) updateMonster() {
 
 	t.Position.Y += m.Velocity.Y * dt
 
-	t.Position.Y += gravity * dt
+	m.Velocity.Y += gravity * dt
 	g.monster.Scroll(*g.hero.Movement)
-	g.monster.TerrainBlock = g.monster.Entity.getBlockUnder(g.t)
+	g.monster.TerrainBlock = g.monster.Entity.getBlockUnder(g.terrain)
+	g.monster.jump() // Test monster jumping
 	g.monster.Entity.update()
 }

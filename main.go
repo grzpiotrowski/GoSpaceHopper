@@ -27,8 +27,7 @@ const (
 type Game struct {
 	hero    *Hero
 	monster *Monster
-	t       *Terrain
-	tb      *TerrainBlock
+	terrain *Terrain
 }
 
 func main() {
@@ -49,7 +48,9 @@ func (g *Game) processInput() {
 	stickState := GetStickState()
 	h := g.hero
 	h.Movement.Velocity.X = stickState.X * h.Movement.Speed.X
-	h.Movement.Velocity.Y = stickState.Y * h.Movement.Speed.Y
+	if stickState.Y == -1 && g.hero.IsOnGround {
+		g.hero.jump()
+	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -84,8 +85,7 @@ func (g *Game) loadObjects() error {
 	// test TerrainBlock
 	t := makeTerrain()
 	t.generateTerrain(200)
-	g.t = t
-	g.tb = t.Blocks[0]
+	g.terrain = t
 	return nil
 }
 
@@ -96,13 +96,6 @@ func (g *Game) Update() error {
 	g.updateHero()
 	g.updateTerrain()
 
-	//var hit bool = g.hero.collidesWith(&g.monster.Entity)
-
-	//fmt.Println(fmt.Sprint(hit))
-
-	//fmt.Println(g.hero.onGround(*g.tb))
-	//fmt.Println(g.tb.xBegin)
-
 	return nil
 }
 
@@ -112,8 +105,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.monster.Draw(screen)
 	g.hero.Draw(screen)
 
-	g.t.Draw(screen, g.hero.TerrainBlock.index)
-	// Debug text
-	//fmt.Println(g.hero.getAABB().String())
+	g.terrain.Draw(screen, g.hero.TerrainBlock.index)
 
 }

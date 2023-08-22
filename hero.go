@@ -10,6 +10,7 @@ func makeHero() (*Hero, error) {
 	}
 
 	e.Movement.Speed = Vec2f{120, 120}
+	e.Movement.JumpForce = 100
 	e.Transform.Position.X = 175
 
 	img, _, err := NewImageFromFile("data/images/hero_stand.png")
@@ -27,9 +28,12 @@ func (g *Game) updateHero() {
 	m := g.hero.Movement
 
 	t.Position.Y += m.Velocity.Y * dt
-
-	t.Position.Y += gravity * dt
-	g.hero.TerrainBlock = g.hero.Entity.getBlockUnder(g.t)
+	if !g.hero.IsOnGround {
+		m.Velocity.Y += gravity * dt
+	} else {
+		m.Velocity.Y = 0.00
+	}
+	g.hero.TerrainBlock = g.hero.Entity.getBlockUnder(g.terrain)
 	g.hero.Entity.update()
 
 }

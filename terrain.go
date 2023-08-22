@@ -37,7 +37,7 @@ func (t *Terrain) generateTerrain(numBlocks int) {
 
 func SurroundingTerrainBlocks(t *Terrain, i, renderRadius int) []*TerrainBlock {
 	if i < 0 || i >= len(t.Blocks) {
-		return nil // return nil or handle error if index out of range
+		return nil
 	}
 	start := i - renderRadius
 	if start < 0 {
@@ -51,7 +51,7 @@ func SurroundingTerrainBlocks(t *Terrain, i, renderRadius int) []*TerrainBlock {
 }
 
 func (g *Game) updateTerrain() {
-	t := g.t
+	t := g.terrain
 	for _, block := range t.Blocks {
 		block.Scroll(*g.hero.Movement)
 	}
@@ -59,7 +59,7 @@ func (g *Game) updateTerrain() {
 
 func (t *Terrain) Draw(screen *ebiten.Image, i int) {
 
-	slice := SurroundingTerrainBlocks(t, i, 1)
+	slice := SurroundingTerrainBlocks(t, i, 5)
 
 	for _, block := range slice {
 		block.Draw(screen)

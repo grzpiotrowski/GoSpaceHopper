@@ -12,6 +12,7 @@ type Entity struct {
 	Movement     *MovementComponent
 	Graphics     *GraphicsComponent
 	TerrainBlock *TerrainBlock
+	IsOnGround   bool
 }
 
 type TransformComponent struct {
@@ -21,8 +22,9 @@ type TransformComponent struct {
 }
 
 type MovementComponent struct {
-	Speed    Vec2f
-	Velocity Vec2f
+	Speed     Vec2f
+	Velocity  Vec2f
+	JumpForce float64
 }
 
 type GraphicsComponent struct {
@@ -49,11 +51,9 @@ func (e *Entity) collidesWith(other *Entity) bool {
 	return e.getAABB().overlaps(other.getAABB())
 }
 
-func (e *Entity) onGround(tb TerrainBlock) bool {
-
+func (e *Entity) checkIsOnGround(tb TerrainBlock) bool {
 	var rect FloatRect = e.getAABB()
-
-	return checkLineSegmentsIntersection(rect.X+rect.W/2, rect.Y+rect.H/2, rect.X+rect.W/2, rect.Y+rect.H,
+	return checkLineSegmentsIntersection(rect.X+rect.W/2, rect.Y+rect.H/2, rect.X+rect.W/2, rect.Y+rect.H+1,
 		float64(tb.xBegin), float64(tb.yBegin()), float64(tb.xEnd()), float64(tb.yEnd()),
 	)
 }
@@ -65,7 +65,7 @@ func (e *Entity) groundCollision(tb TerrainBlock) {
 
 	var tbIntersectionPoint Vec2f = GetLinesIntersectionPoint(hLine, tbLine)
 
-	if e.onGround(tb) {
+	if e.IsOnGround {
 		if e.getAABB().Y+e.getAABB().H >= tbIntersectionPoint.Y {
 			e.Transform.Position.Y = tbIntersectionPoint.Y - e.getAABB().H
 		}
@@ -94,6 +94,13 @@ func (e *Entity) getBlockUnder(t *Terrain) *TerrainBlock {
 
 }
 
+func (e *Entity) jump() {
+	if e.IsOnGround {
+		e.IsOnGround = false
+		e.Movement.Velocity.Y -= e.Movement.JumpForce
+	}
+}
+
 func (e *Entity) drawDebugLines(screen *ebiten.Image) {
 	var rect FloatRect = e.getAABB()
 	var clr color.Color = color.RGBA{255, 0, 0, 100}
@@ -102,6 +109,7 @@ func (e *Entity) drawDebugLines(screen *ebiten.Image) {
 }
 
 func (e *Entity) update() {
+	e.IsOnGround = e.checkIsOnGround(*e.TerrainBlock)
 	e.groundCollision(*e.TerrainBlock)
 }
 
